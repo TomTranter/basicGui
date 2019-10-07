@@ -23,6 +23,7 @@ import subprocess
 import configparser
 import multiprocessing
 import collections
+from pandastable import Table, TableModel
 
 root = tk.Tk()
 root.title("Base Application")
@@ -271,49 +272,16 @@ class PageFour(tk.Frame):
         py = 20
         exp=True
         tk.Frame.__init__(self, parent)    
-        sf = ttk.Frame(self)
-        cols = [("title", 300), ("artist", 180), ("album", 180), ("length", 60)]
-        self.listTree = ttk.Treeview(sf, columns=[col for col, _ in cols], height=10, show="headings")
-        vsb = ttk.Scrollbar(orient="vertical", command=self.listTree.yview)
-        self.listTree.configure(yscrollcommand=vsb.set)
-        self.listTree.grid(column=1, row=0, sticky=tk.NSEW, in_=sf)
-        vsb.grid(column=0, row=0, sticky=tk.NS, in_=sf)
-        for col, colwidth in cols:
-            self.listTree.heading(col, text=col.title())
-            self.listTree.column(col, width=colwidth)
-        self.listTree.insert('', "end", values=['This', 'is', 'an', 'item'])
-        sf.grid_columnconfigure(0, weight=1)
-        sf.grid_rowconfigure(0, weight=1)
-        sf.pack(side=tk.LEFT, padx=4)
-        
-        def set_cell_value(event): # Double click to enter the edit state
-            for item in self.listTree.selection():
-                #item = I001
-                item_text = self.listTree.item(item, "values")
-                column= self.listTree.identify_column(event.x)# column
-                row = self.listTree.identify_row(event.y) #row
-            cn = int(str(column).replace('#',''))
-            rn = int(str(row).replace('I',''))
-            entryedit = tk.Text(root, width=10+(cn-1)*16, height = 1)
-            entryedit.place(x=16+(cn-1)*130, y=6+rn*20)
-            def saveedit():
-                self.listTree.set(item, column=column, value=entryedit.get(0.0, "end"))
-                entryedit.destroy()
-                okb.destroy()
-            okb = ttk.Button(root, text='OK', width=4, command=saveedit)
-            okb.place(x=90+(cn-1)*242,y=2+rn*20)
-         
-#        def newrow():
-#            Name.append('to be named')
-#            ipcode.append('IP')
-#            treeview.insert('', len(name)-1, values=(name[len(name)-1], ipcode[len(name)-1]))
-#            treeview.update()
-#            newb.place(x=120, y=(len(name)-1)*20+45)
-#            newb.update()
-         
-        self.listTree.bind('<Double-1>', set_cell_value) # Double-click the left button to enter the edit
-#        Newb = ttk.Button(root, text='new contact', width=20, command=newrow)
-#        newb.place(x=120,y=(len(name)-1)*20+45)
+        f = tk.Frame(self)
+        self.main = self.master
+        self.main.geometry('600x400+200+100')
+        self.main.title('Table app')
+#        f = tk.Frame(self.main)
+        f.pack(fill=tk.BOTH, expand=1)
+        df = TableModel.getSampleData()
+        self.table = pt = Table(f, dataframe=df,
+                                showtoolbar=True, showstatusbar=True)
+        pt.show()
 
 
 class ToolTip(object):
