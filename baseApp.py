@@ -54,6 +54,7 @@ class mainApp(ttk.Notebook):
         self.figure = Figure()
         self.subplot = self.figure.add_subplot(111)
         self.working_dir = None
+        self.data_file_path = None
 
     def popupmsg(self, msg):
         r"""
@@ -165,41 +166,11 @@ class mainApp(ttk.Notebook):
         config = configparser.ConfigParser()
         config['DEFAULT'] = {'working_dir': str(os.path.normpath(self.working_dir)),
                              'data_file_path': str(os.path.normpath(self.data_file_path))}
-        config['PNM'] = {}
-        config['PNM']['fluid'] = str(self.fluid.get())
-        config['PNM']['psd_shape'] = str(self.shape.get())
-        config['PNM']['psd_loc'] = str(self.loc.get())
-        config['PNM']['psd_scale'] = str(self.scale.get())
-        config['PNM']['swpstar'] = str(self.swpstar.get())
-        config['PNM']['coordination'] = str(self.coordination.get())
-        config['PNM']['nx'] = str(self.nx.get())
-        config['PNM']['ny'] = str(self.ny.get())
-        config['PNM']['nz'] = str(self.nz.get())
-        config['PNM']['distribution'] = self.distribution.get()
+        config['pg1'] = {}
+        config['pg1']['string'] = str(self.string.get())
             
-        config['GA'] = {}
-        config['GA']['ngen'] = str(self.ngen.get())
-        config['GA']['pop'] = str(self.pop.get())
-        config['GA']['cxpb'] = str(self.cxpb.get())
-        config['GA']['mutpb'] = str(self.mutpb.get())
-        config['GA']['num_proc']=str(self.num_proc.get())
-        config['GA']['psd_shape_low']=str(self.shape_ga_low.get())
-        config['GA']['psd_shape_high']=str(self.shape_ga_high.get())
-        config['GA']['psd_shape_include']=str(self.shape_ga.get())
-        config['GA']['psd_loc_low']=str(self.loc_ga_low.get())
-        config['GA']['psd_loc_high']=str(self.loc_ga_high.get())
-        config['GA']['psd_loc_include']=str(self.loc_ga.get())
-        config['GA']['psd_scale_low']=str(self.scale_ga_low.get())
-        config['GA']['psd_scale_high']=str(self.scale_ga_high.get())
-        config['GA']['psd_scale_include']=str(self.scale_ga.get())
-        config['GA']['swpstar_low']=str(self.swpstar_ga_low.get())
-        config['GA']['swpstar_high']=str(self.swpstar_ga_high.get())
-        config['GA']['swpstar_include']=str(self.swpstar_ga.get())
-        config['GA']['fit_porosity']=str(self.poro_fit.get())
-        config['GA']['target_porosity']=str(self.porosity.get())
-        config['GA']['fit_permeability']=str(self.perm_fit.get())
-        config['GA']['target_permeability']=str(self.permeability.get())
-        config['GA']['target_perm_order']=str(self.perm_order.get()) 
+        config['pg2'] = {}
+        config['pg2']['int'] = str(self.int.get()) 
         
         with open(filename, 'w') as configfile:
           config.write(configfile)
@@ -213,45 +184,11 @@ class mainApp(ttk.Notebook):
         default = config['DEFAULT']
         self.working_dir = str(default['working_dir'])
         self.data_file_path = str(default['data_file_path'])
-        self.load_data(self.data_file_path)
-        
-        pnm = config['PNM']
-        self.fluid.set(pnm['fluid'])
-        self.shape.set(pnm['psd_shape'])
-        self.loc.set(pnm['psd_loc'])
-        self.scale.set(pnm['psd_scale'])
-        self.swpstar.set(pnm['swpstar'])
-        self.coordination.set(pnm['coordination'])
-        self.nx.set(pnm['nx'])
-        self.ny.set(pnm['ny'])
-        self.nz.set(pnm['nz'])
-        self.distribution.set(pnm['distribution'])
-
-        ga = config['GA']
-        self.ngen.set(ga['ngen'])
-        self.pop.set(ga['pop'])
-        self.cxpb.set(ga['cxpb'])
-        self.mutpb.set(ga['mutpb'])
-        self.num_proc.set(ga['num_proc'])
-        self.shape_ga_low.set(ga['psd_shape_low'])
-        self.shape_ga_high.set(ga['psd_shape_high'])
-        self.shape_ga.set(ga['psd_shape_include'])
-        self.loc_ga_low.set(ga['psd_loc_low'])
-        self.loc_ga_high.set(ga['psd_loc_high'])
-        self.loc_ga.set(ga['psd_loc_include'])
-        self.scale_ga_low.set(ga['psd_scale_low'])
-        self.scale_ga_high.set(ga['psd_scale_high'])
-        self.scale_ga.set(ga['psd_scale_include'])
-        self.swpstar_ga_low.set(ga['swpstar_low'])
-        self.swpstar_ga_high.set(ga['swpstar_high'])
-        self.swpstar_ga.set(ga['swpstar_include'])
-        self.poro_fit.set(ga['fit_porosity'])
-        self.porosity.set(ga['target_porosity'])
-        self.perm_fit.set(ga['fit_permeability'])
-        self.permeability.set(ga['target_permeability'])
-        self.perm_order.set(ga['target_perm_order'])
-        print("Config Loaded")
-        self.print_values()
+        pg1 = config['pg1']
+        pg2 = config['pg2']
+        self.string.set(pg1['string'])
+        self.int.set(pg2['int'])
+        root.update_idletasks()
 
 class PageOne(tk.Frame):
     r"""
