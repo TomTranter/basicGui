@@ -275,7 +275,7 @@ class PageFour(tk.Frame):
         f = tk.Frame(self)
         self.main = self.master
         self.main.geometry('600x400+200+100')
-        self.main.title('Table app')
+#        self.main.title('Table app')
 #        f = tk.Frame(self.main)
         f.pack(fill=tk.BOTH, expand=1)
         df = TableModel.getSampleData()
