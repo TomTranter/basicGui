@@ -4,13 +4,13 @@ Created on Mon Oct  7 10:36:43 2019
 
 @author: Tom
 """
-
+import matplotlib
+matplotlib.use("TkAgg")
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 import _tkinter
-import matplotlib
-matplotlib.use("TkAgg")
+
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 import os
@@ -198,7 +198,7 @@ class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         px = 40
         py = 15
-        exp = False
+        exp = True
         tk.Frame.__init__(self, parent)
         self.controller = controller
         fill = tk.BOTH
@@ -280,7 +280,7 @@ class PageFour(tk.Frame):
         f.pack(fill=tk.BOTH, expand=1)
         df = TableModel.getSampleData()
         self.table = pt = Table(f, dataframe=df,
-                                showtoolbar=True, showstatusbar=True)
+                                showtoolbar=False, showstatusbar=False)
         pt.show()
 
 
